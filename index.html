@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <script>
+        const numbers = [1, 2, [2.1, 2.2, 2.3], 3]
+        
+        function  generateList(array) {
+            const fragment = new DocumentFragment();
+            const script = document.querySelector('script');
+            const ul = document.createElement('ul');
+
+            array.forEach(num => {
+                const li = document.createElement('li');
+                li.textContent = num;
+
+                if (Array.isArray(num)) {
+                    li.textContent = null;
+                    const subUl = document.createElement('ul');
+
+                    num.forEach(subNum => {
+                        const subLi = document.createElement('li');
+                        subLi.textContent = subNum;
+
+                        subUl.append(subLi);
+                    });
+
+                    li.append(subUl);
+                };
+
+                ul.append(li);
+            });
+
+            fragment.append(ul);
+            script.before(fragment);
+            return fragment;
+        };
+        generateList(numbers)
+
+        function createTable() {
+            const fragment = new DocumentFragment();
+            const script = document.querySelector('script');
+            const table = document.createElement('table');
+            table.style.width = '500px';
+            table.style.height = '500px';
+            table.style.borderCollapse = 'collapse';
+            let count = 1;
+
+            for (let i = 0; i < 10; i++) {
+                const row = table.insertRow();
+                for (let j = 0; j < 10; j++) {
+                    const cell = row.insertCell();
+                    cell.style.border = '1px solid black';
+                };
+            };
+            
+            for (let i = 0; i < table.rows.length; i++) {
+                const row = table.rows[i];
+                for (let j = 0; j < 10; j++) {
+                    row.cells[j].append(count);
+                    count++;
+                };
+            };
+
+            fragment.append(table);
+            script.before(fragment);
+
+            return fragment;
+        };
+        createTable()
+    </script>
+</body>
+</html>
